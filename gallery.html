@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallery | VSH Construction</title>
+  <meta name="description" content="Photo gallery of tiling projects by VSH Construction in Albania and Montenegro: bathrooms, floors, kitchens, terraces and pools.">
+  <meta name="theme-color" content="#0d0e10">
+  <link rel="icon" type="image/svg+xml" href="assets/logo/vsh-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>document.documentElement.classList.add("js");try{if(sessionStorage.getItem("vsh-transition"))document.documentElement.classList.add("is-entering")}catch(e){}</script>
+</head>
+<body data-page="gallery">
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow" data-reveal data-i18n="gp.eyebrow">Gallery</span>
+        <h1 data-split data-i18n="gp.title">Our work, <span class="accent">up close.</span></h1>
+        <p class="lead" data-reveal style="--i:4" data-i18n="gp.lead">Real projects by our team in Albania and Montenegro. Tap any photo to see it full screen.</p>
+      </div>
+      <div class="page-hero-num" aria-hidden="true">18+</div>
+    </section>
+
+    <!-- Photos come from assets/js/gallery-data.js -->
+    <section class="section">
+      <div class="container">
+        <div class="filters" role="group" data-i18n-attr="aria-label:gp.filter" aria-label="Filter photos" data-reveal>
+          <button class="filter-btn" type="button" data-filter="all" aria-pressed="true" data-i18n="cat.all">All</button>
+          <button class="filter-btn" type="button" data-filter="bathrooms" aria-pressed="false" data-i18n="cat.bathrooms">Bathrooms</button>
+          <button class="filter-btn" type="button" data-filter="floors" aria-pressed="false" data-i18n="cat.floors">Floors</button>
+          <button class="filter-btn" type="button" data-filter="walls" aria-pressed="false" data-i18n="cat.walls">Walls</button>
+          <button class="filter-btn" type="button" data-filter="kitchens" aria-pressed="false" data-i18n="cat.kitchens">Kitchens</button>
+          <button class="filter-btn" type="button" data-filter="outdoor" aria-pressed="false" data-i18n="cat.outdoor">Outdoor</button>
+          <button class="filter-btn" type="button" data-filter="pools" aria-pressed="false" data-i18n="cat.pools">Pools</button>
+          <button class="filter-btn" type="button" data-filter="mosaics" aria-pressed="false" data-i18n="cat.mosaics">Mosaics</button>
+          <button class="filter-btn" type="button" data-filter="large" aria-pressed="false" data-i18n="cat.large">Large format</button>
+        </div>
+        <div class="masonry" data-gallery="all"></div>
+      </div>
+    </section>
+
+    <section class="section section-tight" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow" data-reveal data-i18n="gp.ba.eyebrow">Before &amp; after</span>
+            <h2 class="h-lg" data-split data-i18n="gp.ba.title">Drag to see the difference.</h2>
+          </div>
+          <p data-reveal data-i18n="gp.ba.text">Slide across each photo to compare the space before we started and after we finished.</p>
+        </div>
+        <div class="ba-grid" data-before-after></div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <span class="eyebrow" data-reveal data-i18n="nav.cta">Free estimate</span>
+        <h2 data-split data-i18n="gp.cta">Like what you see?</h2>
+        <a class="btn-round" href="contact.html" data-magnetic="0.35" data-reveal="scale" data-i18n="cta.round">Free<br>estimate</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/gallery-data.js"></script>
+  <script src="assets/js/reviews-data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

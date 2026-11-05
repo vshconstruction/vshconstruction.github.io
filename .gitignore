@@ -1,0 +1,10 @@
+# local preview settings (not part of the website)
+.claude/
+
+# the three original logo options, only for reference
+logo-concepts.html
+
+# system files
+Thumbs.db
+desktop.ini
+.DS_Store

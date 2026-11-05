@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reviews | VSH Construction</title>
+  <meta name="description" content="Reviews from clients of VSH Construction, tiling specialists in Albania and Montenegro.">
+  <meta name="theme-color" content="#0d0e10">
+  <link rel="icon" type="image/svg+xml" href="assets/logo/vsh-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>document.documentElement.classList.add("js");try{if(sessionStorage.getItem("vsh-transition"))document.documentElement.classList.add("is-entering")}catch(e){}</script>
+</head>
+<body data-page="reviews">
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow" data-reveal data-i18n="rp.eyebrow">Reviews</span>
+        <h1 data-split data-i18n="rp.title">Trusted by <span class="accent">our clients.</span></h1>
+        <p class="lead" data-reveal style="--i:4" data-i18n="rp.lead">Honest words from the people whose homes and businesses we’ve tiled.</p>
+        <div class="page-hero-actions" data-reveal style="--i:5">
+          <a class="btn" href="#write" data-magnetic="0.2"><svg class="btn-star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg> <span data-i18n="rp.writeBtn">Write a review</span></a>
+        </div>
+      </div>
+      <div class="page-hero-num" aria-hidden="true">5★</div>
+    </section>
+
+    <!-- Reviews come from assets/js/reviews-data.js -->
+    <section class="section">
+      <div class="container">
+        <div class="review-summary" data-review-summary></div>
+        <div class="empty-state" data-reviews-empty hidden data-reveal>
+          <span class="stars stars-lg" aria-hidden="true"><span>★</span></span>
+          <h2 data-i18n="rp.empty.title">Be the first to leave a review</h2>
+          <p data-i18n="rp.empty.text">We’re collecting reviews from our clients. Worked with us? We’d love to hear from you.</p>
+          <a class="btn" href="#write" style="margin-top:28px"><span data-i18n="rp.writeBtn">Write a review</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="reviews-grid" data-reviews="all"></div>
+      </div>
+    </section>
+
+    <section class="section section-light" id="write">
+      <div class="container write-review">
+        <div>
+          <span class="eyebrow" data-reveal data-i18n="rp.write.eyebrow">Leave a review</span>
+          <h2 class="h-lg" data-split data-i18n="rp.write.title">Worked with us? Tell others.</h2>
+          <p data-reveal data-i18n="rp.write.text">Your review helps other families choose with confidence. Pick a rating, write a few words and send it to us on WhatsApp or by email.</p>
+          <a class="btn btn-dark" data-google-review data-reveal><span data-i18n="rp.google">Review us on Google</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+        </div>
+        <form class="form form-light" data-review-form novalidate data-reveal>
+          <fieldset class="rating-field">
+            <legend class="field-label" data-i18n="rp.rating">Your rating</legend>
+            <div class="rating-input">
+              <input type="radio" id="r5" name="rating" value="5" checked><label for="r5" aria-label="5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg></label>
+              <input type="radio" id="r4" name="rating" value="4"><label for="r4" aria-label="4"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg></label>
+              <input type="radio" id="r3" name="rating" value="3"><label for="r3" aria-label="3"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg></label>
+              <input type="radio" id="r2" name="rating" value="2"><label for="r2" aria-label="2"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg></label>
+              <input type="radio" id="r1" name="rating" value="1"><label for="r1" aria-label="1"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <input id="rv-name" name="name" type="text" placeholder=" " autocomplete="name" minlength="2" maxlength="60" required>
+            <label for="rv-name" data-i18n="f.name">Your name *</label>
+          </div>
+          <div class="field">
+            <input id="rv-town" name="town" type="text" placeholder=" " maxlength="60">
+            <label for="rv-town" data-i18n="f.town">Town / city</label>
+          </div>
+          <div class="field select">
+            <select id="rv-country" name="country">
+              <option value=""></option>
+              <option value="me" data-i18n="country.me">Montenegro</option>
+              <option value="al" data-i18n="country.al">Albania</option>
+            </select>
+            <label for="rv-country" data-i18n="f.country">Country</label>
+          </div>
+          <div class="field select">
+            <select id="rv-service" name="service">
+              <option value=""></option>
+              <option value="floors" data-i18n="cat.floors">Floors</option>
+              <option value="walls" data-i18n="cat.walls">Walls</option>
+              <option value="bathrooms" data-i18n="cat.bathrooms">Bathrooms</option>
+              <option value="kitchens" data-i18n="cat.kitchens">Kitchens</option>
+              <option value="outdoor" data-i18n="cat.outdoor">Outdoor</option>
+              <option value="pools" data-i18n="cat.pools">Pools</option>
+            </select>
+            <label for="rv-service" data-i18n="f.service">Type of work</label>
+          </div>
+          <div class="field full">
+            <textarea id="rv-text" name="review" placeholder=" " rows="4" minlength="10" maxlength="1000" required></textarea>
+            <label for="rv-text" data-i18n="rp.text">Your review *</label>
+          </div>
+          <!-- spam trap: hidden from people, bots fill it in -->
+          <div class="hp" aria-hidden="true"><label for="rv-website">Website</label><input id="rv-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="form-foot">
+            <button class="btn btn-dark" type="submit"><svg class="btn-star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg> <span data-i18n="rp.publish">Publish review</span></button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/gallery-data.js"></script>
+  <script src="assets/js/reviews-data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="2 15 96 70" width="960" height="700">
+  <title>VSH Construction</title>
+  <!-- For dark backgrounds: off-white + gold -->
+  <path d="M37 18 L69 50 L37 82 L5 50 Z" fill="none" stroke="#f2eee6" stroke-width="4.5" stroke-linejoin="round"/>
+  <path d="M63 18 L95 50 L63 82 L31 50 Z" fill="none" stroke="#c9a063" stroke-width="4.5" stroke-linejoin="round"/>
+  <path d="M50 37 L63 50 L50 63 L37 50 Z" fill="#c9a063"/>
+</svg>
