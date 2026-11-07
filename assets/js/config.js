@@ -8,7 +8,7 @@ window.VSH_CONFIG = {
   phoneME: "+382 6X XXX XXX",
 
   // WhatsApp number: digits only, with country code, no "+" or spaces (e.g. "355691234567")
-  whatsapp: "3556XXXXXXXX",
+  whatsapp: "355676947680",
 
   // Email that receives estimate requests and reviews
   email: "vshconstruction@gmail.com",
