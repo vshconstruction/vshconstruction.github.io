@@ -4,7 +4,7 @@
    ========================================================= */
 window.VSH_CONFIG = {
   // Phone numbers exactly as they should be shown on the site
-  phoneAL: "+355 6X XXX XXXX",
+  phoneAL: "+355 67 69 47 680",
   phoneME: "+382 6X XXX XXX",
 
   // WhatsApp number: digits only, with country code, no "+" or spaces (e.g. "355691234567")
