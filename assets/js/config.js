@@ -11,7 +11,7 @@ window.VSH_CONFIG = {
   whatsapp: "3556XXXXXXXX",
 
   // Email that receives estimate requests and reviews
-  email: "info@vshconstruction.com",
+  email: "vshconstruction@gmail.com",
 
   // Opening hours per language: [English, Albanian, Montenegrin]
   hours: ["Mon – Sat · 08:00 – 18:00", "Hën – Sht · 08:00 – 18:00", "Pon – Sub · 08:00 – 18:00"],
