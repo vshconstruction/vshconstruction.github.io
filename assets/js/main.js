@@ -104,6 +104,12 @@
   function bindContacts(scope) {
     each("[data-tel]", function (el) {
       var num = el.getAttribute("data-tel") === "al" ? CFG.phoneAL : CFG.phoneME;
+      // no number set (or still a placeholder with X's): hide it everywhere
+      if (!num || /x/i.test(num)) {
+        var holder = el.parentElement && el.parentElement.tagName === "LI" ? el.parentElement : el;
+        holder.hidden = true;
+        return;
+      }
       el.href = telHref(num);
       if (!el.children.length) el.textContent = num;
       else { var n = el.querySelector("[data-num]"); if (n) n.textContent = num; }
@@ -182,7 +188,7 @@
       '</nav><div class="mobile-menu-foot">' +
         '<a class="btn" href="contact.html">' + t("nav.cta") + " " + ICON.arrow + "</a>" +
         '<span>' + t("common.where") + "</span>" +
-        '<a data-tel="al"></a><a data-tel="me"></a>' +
+        '<a data-tel="al"></a><a data-tel="me"></a><a data-mail></a>' +
       "</div></div>";
     var ref = body.firstChild;
     while (top.firstChild) body.insertBefore(top.firstChild, ref);

@@ -5,7 +5,7 @@
 window.VSH_CONFIG = {
   // Phone numbers exactly as they should be shown on the site
   phoneAL: "+355 67 69 47 680",
-  phoneME: "+382 6X XXX XXX",
+  phoneME: "",   // Montenegro number: leave empty to hide it, e.g. "+382 67 123 456"
 
   // WhatsApp number: digits only, with country code, no "+" or spaces (e.g. "355691234567")
   whatsapp: "355676947680",
