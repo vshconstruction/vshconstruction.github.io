@@ -106,6 +106,8 @@ window.VSH_I18N = {
   "home.services.eyebrow": ["What we do", "Çfarë bëjmë", "Šta radimo"],
   "home.services.title": ["Tiling for every room, inside and out.", "Pllaka për çdo ambient, brenda e jashtë.", "Pločice za svaki prostor, unutra i napolju."],
   "home.services.text": ["From a single bathroom to a full building, we handle preparation, laying and finishing with the same care on every square metre.", "Nga një banjo e vetme deri te një ndërtesë e tërë, kujdesemi për përgatitjen, shtrimin dhe përfundimin me të njëjtin kujdes për çdo metër katror.", "Od jednog kupatila do cijele zgrade, radimo pripremu, postavljanje i završne radove s istom pažnjom na svakom kvadratnom metru."],
+  "c3.prev": ["Previous service", "Shërbimi i mëparshëm", "Prethodna usluga"],
+  "c3.next": ["Next service", "Shërbimi tjetër", "Sljedeća usluga"],
   "c3.more": ["Learn more", "Mësoni më shumë", "Saznajte više"],
   "c3.eyebrow": ["Our craft in motion", "Zanati ynë në lëvizje", "Naš zanat u pokretu"],
   "c3.title": ["Scroll to watch us work.", "Lëvizni poshtë dhe shikoni si punojmë.", "Skrolujte i gledajte kako radimo."],

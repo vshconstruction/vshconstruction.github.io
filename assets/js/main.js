@@ -644,8 +644,10 @@
 
   var GALLERY = (window.VSH_GALLERY || []).filter(function (g) { return g && (g.src || g.pattern); });
 
-  // Home: 3D ring of worker scenes. It turns smoothly by itself;
-  // hover over it (or hold a finger on it) to stop, move away to let it carry on.
+  // Home: 3D ring of worker scenes.
+  // It turns smoothly by itself. Visitors can also drag/swipe it, use the arrows,
+  // tap a side worker, click a diamond or use the keyboard arrows.
+  // Hovering stops it; it carries on by itself a few seconds after the last touch.
   (function craft3d() {
     var sec = document.querySelector("[data-craft3d]");
     if (!sec) return;
@@ -653,48 +655,89 @@
     var stage = sec.querySelector(".c3-stage");
     var cards = Array.prototype.slice.call(sec.querySelectorAll(".c3-card"));
     var dots = Array.prototype.slice.call(sec.querySelectorAll(".c3-dots i"));
+    var info = sec.querySelector(".c3-info");
     var n = cards.length, step = 360 / n, shown = -1;
-    var SPEED = 26;                 // degrees per second: a full turn in ~14 s (≈2.3 s per service)
-    var pos = 0;                    // current rotation, in "cards" (1 = one service further)
-    var vel = 0, holding = false, onScreen = false, lastT = 0, rafId = null, resumeTimer = null, jumpTo = null;
+    var SPEED = 26 / step;          // auto-turn speed in cards per second (~2.3 s per service)
+    var IDLE_MS = 4000;             // after a manual switch, wait this long before turning by itself again
+    var pos = 0, vel = 0, target = null;
+    var hovering = false, dragging = false, manualUntil = 0;
+    var onScreen = false, lastT = 0, rafId = null;
 
-    function frame(now) {
-      var dt = lastT ? Math.min(0.6, (now - lastT) / 1000) : 0;
-      lastT = now;
-      if (jumpTo !== null) {
-        // a dot was clicked: glide to that service
-        pos += (jumpTo - pos) * Math.min(1, dt * 7);
-        if (Math.abs(jumpTo - pos) < 0.002) { pos = jumpTo; jumpTo = null; }
-        vel = 0;
-      } else if (holding) {
-        // ease to a stop, then settle the nearest worker exactly at the front
-        vel += (0 - vel) * Math.min(1, dt * 8);
-        var nearest = Math.round(pos);
-        pos += vel * dt + (nearest - pos) * Math.min(1, dt * 5);
-      } else {
-        var target = reduced ? 0 : SPEED / step;   // cards per second
-        vel += (target - vel) * Math.min(1, dt * 2.5);
-        pos += vel * dt;
+    // arrows on both sides of the ring
+    var arrow = function (dir) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "c3-arrow c3-" + (dir < 0 ? "prev" : "next");
+      b.setAttribute("aria-label", t(dir < 0 ? "c3.prev" : "c3.next"));
+      b.innerHTML = dir < 0 ? ICON.left : ICON.arrow;
+      b.addEventListener("click", function () { nudge(dir); });
+      stage.appendChild(b);
+    };
+    arrow(-1); arrow(1);
+    stage.setAttribute("tabindex", "0");
+    stage.setAttribute("role", "region");
+    stage.setAttribute("aria-label", t("home.services.eyebrow"));
+
+    function now() { return performance.now(); }
+    function wrap(i) { return ((i % n) + n) % n; }
+    function goToCard(i) {
+      var base = target !== null ? target : Math.round(pos);
+      var diff = i - wrap(base);
+      if (diff > n / 2) diff -= n;
+      if (diff < -n / 2) diff += n;
+      target = base + diff; vel = 0; manualUntil = now() + IDLE_MS; run();
+    }
+    function nudge(dir) {
+      var base = target !== null ? target : Math.round(pos);
+      target = base + dir; vel = 0; manualUntil = now() + IDLE_MS; run();
+    }
+
+    function frame(t) {
+      var dt = lastT ? Math.min(0.1, (t - lastT) / 1000) : 1 / 60;
+      lastT = t;
+      if (!dragging) {
+        if (target === null && (hovering || t < manualUntil || reduced)) {
+          // coming to a stop: carry a little momentum, then rest on the nearest worker
+          target = Math.round(pos + vel * 0.3);
+          vel = 0;
+        }
+        if (target !== null) {
+          // smooth spring towards the chosen worker
+          pos += (target - pos) * (1 - Math.exp(-dt * 7.5));
+          if (Math.abs(target - pos) < 0.0008) {
+            pos = target;
+            if (!hovering && t >= manualUntil && !reduced) target = null; // free to turn by itself again
+          }
+        } else {
+          // turning by itself, easing in gently
+          vel += (SPEED - vel) * (1 - Math.exp(-dt * 1.6));
+          pos += vel * dt;
+        }
       }
       render(pos);
-      rafId = onScreen && !document.hidden ? requestAnimationFrame(frame) : null;
+      var idle = target !== null && pos === target && (hovering || reduced);
+      rafId = onScreen && !document.hidden && !idle ? requestAnimationFrame(frame) : null;
+      if (!rafId && target !== null && !reduced && onScreen) {
+        // resting while hovered/reduced: wake up again later
+        setTimeout(run, 250);
+      }
     }
     function run() { if (!rafId && onScreen && !document.hidden) { lastT = 0; rafId = requestAnimationFrame(frame); } }
 
     function render(p) {
       var rot = -p * step;
-      ring.style.setProperty("--rot", rot.toFixed(2) + "deg");
-      var front = ((Math.round(p) % n) + n) % n;
+      if (!reduced) ring.style.transform = "translate(-50%, -50%) translateZ(calc(var(--w) * -0.98)) rotateX(-7deg) rotateY(" + rot.toFixed(3) + "deg)";
+      var front = wrap(Math.round(p));
       cards.forEach(function (c, i) {
         var ang = ((i * step + rot) % 360 + 540) % 360 - 180;
         var f = Math.max(0, 1 - Math.abs(ang) / 130);
         c.style.setProperty("--f", f.toFixed(3));
-        c.classList.toggle("is-front", i === front);
+        if ((i === front) !== c.classList.contains("is-front")) c.classList.toggle("is-front", i === front);
       });
       if (front !== shown) { shown = front; dots.forEach(function (d, i) { d.classList.toggle("on", i === front); }); showInfo(front); }
     }
+
     // the service in front: number, animated icon, name, short text and link
-    var info = sec.querySelector(".c3-info");
     function showInfo(i) {
       if (!info || !cards[i]) return;
       var key = cards[i].getAttribute("data-key");
@@ -706,28 +749,77 @@
         info.querySelector(".c3-more").href = "services.html#" + key;
         info.classList.remove("is-swapping");
       };
-      if (info.dataset.ready) { info.classList.add("is-swapping"); setTimeout(fill, 180); }
+      clearTimeout(info._t);
+      if (info.dataset.ready) { info.classList.add("is-swapping"); info._t = setTimeout(fill, 160); }
       else { info.dataset.ready = "1"; fill(); }
     }
-    // stop while the mouse is over the ring or the info bar; carry on when it leaves
+
+    // hover: stop gently; leave: carry on shortly after
     [stage, info].forEach(function (el) {
       if (!el) return;
-      el.addEventListener("mouseenter", function () { holding = true; clearTimeout(resumeTimer); });
-      el.addEventListener("mouseleave", function () { holding = false; });
+      el.addEventListener("mouseenter", function () { hovering = true; run(); });
+      el.addEventListener("mouseleave", function () { hovering = false; manualUntil = Math.max(manualUntil, now() + 900); run(); });
     });
-    // phones/tablets: a finger on the ring stops it; it carries on a few seconds after letting go
-    stage.addEventListener("touchstart", function () { holding = true; clearTimeout(resumeTimer); }, { passive: true });
-    stage.addEventListener("touchend", function () { clearTimeout(resumeTimer); resumeTimer = setTimeout(function () { holding = false; }, 3000); }, { passive: true });
-    // the small diamonds jump straight to a service
-    dots.forEach(function (d, i) {
-      d.addEventListener("click", function () {
-        var base = Math.round(pos), cur = ((base % n) + n) % n, diff = i - cur;
-        if (diff > n / 2) diff -= n; if (diff < -n / 2) diff += n;
-        jumpTo = base + diff; holding = true;
-        clearTimeout(resumeTimer); resumeTimer = setTimeout(function () { holding = false; }, 4000);
+
+    // drag / swipe the ring
+    var startX = 0, startPos = 0, lastX = 0, lastMoveT = 0, dragVel = 0, pointerId = null, moved = false, suppressClick = false;
+    function pxPerCard() { return (cards[0].offsetWidth || 300) * 0.85; }
+    stage.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0 || e.target.closest(".c3-arrow")) return;
+      pointerId = e.pointerId; moved = false;
+      startX = lastX = e.clientX; startPos = pos; lastMoveT = now(); dragVel = 0;
+    });
+    stage.addEventListener("pointermove", function (e) {
+      if (pointerId !== e.pointerId) return;
+      var dx = e.clientX - startX;
+      if (!moved) {
+        if (Math.abs(dx) < 7) return;
+        moved = true; dragging = true; target = null; vel = 0; startX = e.clientX; startPos = pos;
+        stage.classList.add("is-dragging");
+        try { stage.setPointerCapture(e.pointerId); } catch (err) {}
         run();
-      });
+        dx = 0;
+      }
+      var tNow = now(), dtm = Math.max(1, tNow - lastMoveT);
+      dragVel = 0.8 * (-(e.clientX - lastX) / pxPerCard() / (dtm / 1000)) + 0.2 * dragVel;
+      lastX = e.clientX; lastMoveT = tNow;
+      pos = startPos - dx / pxPerCard();
     });
+    function endDrag(e) {
+      if (pointerId !== e.pointerId) return;
+      pointerId = null;
+      if (!dragging) return;
+      dragging = false;
+      stage.classList.remove("is-dragging");
+      var fling = Math.max(-2, Math.min(2, dragVel * 0.28)); // a quick flick carries on up to 2 workers
+      target = Math.round(pos + fling);
+      manualUntil = now() + IDLE_MS;
+      suppressClick = true; setTimeout(function () { suppressClick = false; }, 60);
+      run();
+    }
+    stage.addEventListener("pointerup", endDrag);
+    stage.addEventListener("pointercancel", function (e) { if (pointerId === e.pointerId) { pointerId = null; dragging = false; stage.classList.remove("is-dragging"); } });
+
+    // tapping a side worker turns it to the front; tapping the front one opens that service
+    cards.forEach(function (c, i) {
+      c.addEventListener("click", function (e) {
+        if (suppressClick || !c.classList.contains("is-front")) {
+          e.preventDefault(); e.stopPropagation();
+          if (!suppressClick) goToCard(i);
+        }
+      }, true);
+      c.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    });
+
+    // the small diamonds jump straight to a service
+    dots.forEach(function (d, i) { d.addEventListener("click", function () { goToCard(i); }); });
+
+    // keyboard: left / right arrows while the ring has focus
+    stage.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") { e.preventDefault(); nudge(-1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); nudge(1); }
+    });
+
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; run(); }, { threshold: 0.1 }).observe(sec);
     } else { onScreen = true; run(); }
